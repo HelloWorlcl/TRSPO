@@ -1,0 +1,59 @@
+package com.company;
+import java.util.ArrayList;
+import java.util.Scanner;
+
+class MyThread extends Thread {
+    Thread t;
+    String name;
+    int delay;
+
+    public MyThread(String name, int delay) {
+        this.name = name;
+        this.delay = delay;
+        System.out.println("Thread '" + name + "' created.");
+    }
+
+    public void run() {
+        System.out.println("Thread '" + name + "' started a work.");
+        try {
+            while (true) {
+                Thread.sleep(delay);
+                System.out.println(name);
+            }
+        } catch (InterruptedException e) {
+            System.out.println("Thread '" + name + "' interrupted.");
+        }
+        System.out.println("Thread '" + name + "' exiting.");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws InterruptedException {
+        Scanner scanner = new Scanner(System.in);
+        ArrayList<MyThread> threads = new ArrayList<MyThread>();
+        while (true) {
+            try {
+                String name = scanner.next();
+                if (name.equals("exit"))
+                    break;
+                String secondArg = scanner.next();
+                if (secondArg.equals("stop")) {
+                    for (int a = 0; a < threads.size(); ++a)
+                        if (threads.get(a).name.equals(name)) {
+                            System.out.println("Thread '" + name + "' stopped.");
+                            threads.get(a).interrupt();
+                            threads.remove(threads.get(a));
+                        }
+                } else {
+                    MyThread mt = new MyThread(name, Integer.parseInt(secondArg));
+                    mt.start();
+                    threads.add(mt);
+                }
+            } catch (Exception e) {
+                System.out.println("Exception happened: " + e.getMessage());
+                e.printStackTrace();
+            }
+        }
+        System.out.println("Thanks for service.");
+    }
+}
