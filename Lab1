@@ -1,0 +1,56 @@
+package com.company;
+import java.lang.*;
+
+class SomeClass extends Main.AbstractExample implements Main.IExample {
+    SomeClass() {
+    }
+
+    int anotherCalculate() {
+        System.out.print("Implementation of 'anotherCalculate' from abstract class: 2 + 2 + 2 = ");
+        return 2 + 2 + 2;
+    }
+
+    public void print() {
+        System.out.println("Object called overrided first interface  method.");
+    }
+
+    public int calculate() {
+        System.out.print("Overrided interface method 'calculate': 2 + 2 = ");
+        return 2 + 2;
+    }
+
+    @Override
+    void hello() {
+        System.out.println("Hello from overrided class.");
+    }
+}
+
+class Main {
+    static abstract class AbstractExample {
+        void method1() { };
+
+        abstract int anotherCalculate();
+
+        void hello() {
+            System.out.println("Hello from abstract class.");
+        }
+    }
+
+    interface IExample {
+        void print();
+
+        int calculate();
+    }
+
+
+    public static void main(String[] args) {
+        SomeClass object = new SomeClass();
+        AbstractExample abstr = object;
+        abstr.hello();
+
+        object.method1();
+        System.out.println(object.anotherCalculate());
+        object.print();
+        System.out.println(object.calculate());
+    }
+}
